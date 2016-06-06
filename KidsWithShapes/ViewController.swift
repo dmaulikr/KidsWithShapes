@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import GoogleMobileAds
 
 let kwsGreen: UIColor = UIColor(red: 0.416, green: 0.667, blue: 0.000, alpha: 1.00)
 let kwsRed: UIColor = UIColor(red: 0.96, green: 0.247, blue: 0.357, alpha: 1.00)
@@ -19,9 +20,11 @@ let kwsWhite: UIColor = UIColor.whiteColor()
 let kwsBlack: UIColor = UIColor.blackColor()
 let kwsDarkGray: UIColor = UIColor.darkGrayColor()
 
-class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate  {
+class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, GADBannerViewDelegate  {
     
     @IBOutlet weak var collectionView: UICollectionView!
+    
+    @IBOutlet weak var banner: GADBannerView!
     
     var selectedMenu: Int = 0
     
@@ -40,6 +43,25 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         collectionView.dataSource = self
         collectionView.hidden = true
         
+        banner.hidden = true
+        banner.delegate = self
+        banner.adUnitID = "ca-app-pub-1913643963550195/2942422460"
+        banner.rootViewController = self
+        banner.adSize = kGADAdSizeLeaderboard
+        banner.loadRequest(GADRequest())
+        let request = GADRequest()
+        request.testDevices = [kGADSimulatorID]
+        banner.loadRequest(request)
+        
+    }
+    
+    // banner delegate
+    func adViewDidReceiveAd(bannerView: GADBannerView!) {
+        banner.hidden = false
+    }
+    
+    func adView(bannerView: GADBannerView!, didFailToReceiveAdWithError error: GADRequestError!) {
+        banner.hidden = true
     }
     
     func generateObject( sender: UIBarButtonItem, max: Int ){
@@ -233,6 +255,18 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         print("-- \(indexPath.row)")
+    }
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
+        return 50
+    }
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
+        return UIEdgeInsetsMake(20, 30, 30, 30)
+    }
+    
+    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+        collectionView.reloadData()
     }
     
     override func didReceiveMemoryWarning() {
