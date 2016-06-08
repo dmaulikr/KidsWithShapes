@@ -47,10 +47,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         banner.delegate = self
         banner.adUnitID = "ca-app-pub-1913643963550195/2942422460"
         banner.rootViewController = self
-        banner.adSize = kGADAdSizeLeaderboard
         banner.loadRequest(GADRequest())
         let request = GADRequest()
-        request.testDevices = [kGADSimulatorID]
         banner.loadRequest(request)
         
     }
@@ -253,9 +251,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         return cell
     }
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        print("-- \(indexPath.row)")
-    }
+//    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+////        print("-- \(indexPath.row)")
+//    }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
         return 50
