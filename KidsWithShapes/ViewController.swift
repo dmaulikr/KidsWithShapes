@@ -45,7 +45,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
         banner.hidden = true
         banner.delegate = self
-        banner.adUnitID = "ca-app-pub-1913643963550195/2942422460"
+        banner.adUnitID = "---AdMobID---"
         banner.rootViewController = self
         banner.loadRequest(GADRequest())
         let request = GADRequest()
